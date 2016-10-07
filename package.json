@@ -1,6 +1,6 @@
 {
   "name": "systemjs-middleware",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "A middleware for systemjs module loader which allow for simpler systemjs configuration",
   "main": "index.js",
   "scripts": {

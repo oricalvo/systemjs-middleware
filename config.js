@@ -3,7 +3,6 @@ const path = require("path");
 const config = {
     basePath: path.join(__dirname, ".."),
     defaultExtensions: ["", "js"],
-    port: 3000,
 };
 
 module.exports = function getSetConfig(c) {

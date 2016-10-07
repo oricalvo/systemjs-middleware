@@ -1,4 +1,4 @@
-const config = require("./config")();
+const configurator = require("./config");
 const promiseHelpers = require("./promiseHelpers");
 const fsHelpers = require("./fsHelpers");
 const resolvers = require("./resolvers");
@@ -42,5 +42,11 @@ function setup(app) {
     });
 }
 
+function config(c) {
+    configurator(c);
+}
 
-module.export = setup;
+module.exports = {
+    setup: setup,
+    config: config,
+};
