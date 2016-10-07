@@ -1,6 +1,6 @@
 {
   "name": "systemjs-middleware",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "A middleware for systemjs module loader which allow for simpler systemjs configuration",
   "main": "index.js",
   "scripts": {
@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/oricalvo/systemjs-middleware/issues"
   },
-  "homepage": "https://github.com/oricalvo/systemjs-middleware#readme"
+  "homepage": "https://github.com/oricalvo/systemjs-middleware#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0"
+  }
 }

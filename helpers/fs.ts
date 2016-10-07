@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function fileExists(filePath) {
+export function fileExists(filePath) {
     return new Promise(function (resolve, reject) {
         fs.stat(filePath, function (err, stats) {
             if (err) {
@@ -18,7 +18,7 @@ function fileExists(filePath) {
     });
 }
 
-function readJson(filePath) {
+export function readJson(filePath): Promise<any> {
     return new Promise(function(resolve, reject) {
         fs.readFile(filePath, 'utf8', function (err, data) {
             if(err) {
@@ -31,7 +31,7 @@ function readJson(filePath) {
     });
 }
 
-function readFileContent(filePath) {
+export function readFileContent(filePath) {
     return new Promise(function(resolve, reject) {
         fs.readFile(filePath, 'utf8', function (err, content) {
             if(err) {
@@ -43,9 +43,3 @@ function readFileContent(filePath) {
         });
     });
 }
-
-module.exports = {
-    fileExists: fileExists,
-    readJson: readJson,
-    readFileContent: readFileContent,
-};

@@ -1,7 +1,7 @@
 //
 //  Returns the first truthy resolved value
 //
-function or(factories) {
+export function or(factories) {
     return new Promise(function (resolve, reject) {
         let index = 0;
 
@@ -31,7 +31,3 @@ function or(factories) {
         run();
     });
 }
-
-module.exports = {
-    or: or,
-};

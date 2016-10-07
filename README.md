@@ -10,7 +10,7 @@ For example, assuming you just installed redux by running
 npm install redux
 ```
 
-And tries to import redux by running
+And try to import redux by running
 
 ```
 require("redux");

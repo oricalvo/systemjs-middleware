@@ -25,7 +25,7 @@
         return fetch("systemjs/locate?path=" + path)
             .then(res => res.json())
             .then(json => {
-                console.log(path);
+                console.log("systemjs-middleware resolve: " + path);
 
                 for (let message of json.log) {
                     console.log("    " + message);

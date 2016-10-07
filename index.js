@@ -1,52 +1,63 @@
-const configurator = require("./config");
-const promiseHelpers = require("./promiseHelpers");
-const fsHelpers = require("./fsHelpers");
-const resolvers = require("./resolvers");
-
+"use strict";
+var index_1 = require("./resolvers/index");
+var logger_1 = require("./core/logger");
+var configurator = require("./core/config");
+exports.resolvers = new index_1.ResolverCollection("global", [
+    //
+    //  app/main ==> app/main.js
+    //
+    new index_1.ResolverDefaultExtensions(),
+    //
+    //  rxjs/Subject ==> node_module/rxjs/Subject.js
+    //
+    new index_1.ResolverUnderNodeModulesFolder(),
+    //
+    //  jquery ==> node_modules/jquery/dist/jquery.js
+    //
+    new index_1.ResolverUnderNpmPackageDistFolder(),
+    //
+    //  redux ==> node_modules/redux/package.json ==> node_modules/redux/index.js
+    //
+    new index_1.ResolverNpmPackage(),
+    //
+    //  text ==> node_modules/systemjs-plugin-text
+    //
+    new index_1.ResolverSystemJSPlugin(),
+    //
+    //  XXX ==> XXX
+    //
+    new index_1.ResolverNull(),
+]);
 function setup(app) {
-    if(!app) {
-        throw new Error("SystemJS middleware setup must recieve a reference to express application instance");
+    if (!app) {
+        throw new Error("SystemJS middleware setup must receive a reference to an express application instance");
     }
-
-    app.get('/systemjs/locate', function(req, res) {
-        const path = req.query.path;
-        const resolver = new resolvers.Resolver();
-
-        if(!path) {n
-            return resolver.resolveBootstrapper().then(js => {
-                res.write(js);
-                res.end();
-            });
-        }
-
-        promiseHelpers.or([
-            () => resolver.resolveWithExtensions(path),
-            () => resolver.resolveUnderNodeModules(path),
-            () => resolver.resolveUnderNpmPackageDistFolder(path),
-            () => resolver.resolveNpmPackage(path),
-            () => resolver.resolveSystemJSPlugin(path),
-            () => resolver.resolveMain(path),
-        ]).then(path => {
+    console.log("The following resolvers are installed");
+    for (var _i = 0, _a = exports.resolvers.resolvers; _i < _a.length; _i++) {
+        var resolver = _a[_i];
+        console.log("    " + resolver.name);
+    }
+    app.get('/systemjs/locate', function (req, res) {
+        var path = req.query.path;
+        var logger = new logger_1.MiddlewareLogger();
+        exports.resolvers.resolve(path, logger)
+            .then(function (path) {
             res.json({
-                path: path || "",
-                log: resolver.logEntries,
+                path: path,
+                log: logger.logs,
             }).end();
-        }).catch(function(err) {
+        })
+            .catch(function (err) {
             console.error(err);
-
             res.json({
                 err: err,
-                log: resolver.logEntries,
+                log: logger.logs,
             }).end();
         });
     });
 }
-
+exports.setup = setup;
 function config(c) {
-    configurator(c);
+    configurator.set(c);
 }
-
-module.exports = {
-    setup: setup,
-    config: config,
-};
+exports.config = config;
